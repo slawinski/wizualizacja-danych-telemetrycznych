@@ -32,7 +32,6 @@ export function useFlights() {
           }
         }),
     ];
-    console.table(flights.value);
   }
 
   return { flights };
