@@ -1,8 +1,7 @@
 import { onMounted, ref } from '@vue/composition-api';
-import { getAll } from '../services/flights.service';
+import { getAll } from '../services/flight.service';
 
 export function useFlights() {
-  const isSpinnerVisible = ref(true);
   const flights = ref([]);
 
   onMounted(() => {
@@ -10,32 +9,30 @@ export function useFlights() {
   });
 
   async function getFlights() {
-    let rawFlightsData = [];
+    let rawFlightData = [];
     try {
-      rawFlightsData = await getAll();
+      rawFlightData = await getAll();
     } catch (error) {
       console.error(error);
     } finally {
-      mapFlightsData(rawFlightsData);
-      isSpinnerVisible.value = false;
+      mapFlightData(rawFlightData);
     }
   }
 
-  function mapFlightsData(flightData) {
+  function mapFlightData(flightData) {
     flights.value = [
-      ...flightData.data.states.map(item => {
-        const [icao24, callSign, , , , lng, lat, , , , trueTrack] = item;
-        return {
-          icao24,
-          callSign,
-          position: {
-            lat,
-            lng,
-          },
-          trueTrack,
-        };
-      }),
+      ...flightData.data
+        .map(item => {
+          const { Latitude, Longitude, Altitude } = item;
+          return [Latitude, Longitude, Altitude];
+        })
+        .filter(item => {
+          if (item[0] + item[1] + item[2] !== 0) {
+            return item;
+          }
+        }),
     ];
   }
-  return { isSpinnerVisible, flights };
+
+  return { flights };
 }
