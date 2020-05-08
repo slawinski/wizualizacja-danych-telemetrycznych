@@ -1,6 +1,6 @@
 # Wizualizacja danych telemetrycznych
 
-Punkty (lat/lng) wyświetlone za pomocą polilinii z dodatkowym parametrem `altitude` (hotline)
+Dane telemetryczne (lat/lng) zwizualizowane za pomocą polilinii z dodatkowym parametrem altitude (hotline)
 
 ## Project setup
 
