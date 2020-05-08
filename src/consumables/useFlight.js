@@ -22,6 +22,9 @@ export function useFlights() {
   function mapFlightData(flightData) {
     flights.value = [
       ...flightData.data
+        .sort((a, b) => {
+          return new Date(a.Timestamp) - new Date(b.Timestamp);
+        })
         .map(item => {
           const { Latitude, Longitude, Altitude } = item;
           return [Latitude, Longitude, Altitude];
